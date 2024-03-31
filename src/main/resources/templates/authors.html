@@ -1,52 +1,11 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
-<head>
-    <meta charset="UTF-8">
-    <title>Book Shop|Ana Naunova</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/e59232f0a1.js" crossorigin="anonymous"></script>
-</head>
-<body>
-<!--Header-->
-<header>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">Ana's Book Shop</a>
 
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/categories">Book Categories</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/authors">Book Authors</a>
-            </li>
-        </ul>
-
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <a class="btn btn-outline-success my-2 my-sm-0" href="/shopping-cart">Shopping Cart</a>
-    </div>
-</nav>
-</header>
+<div  xmlns:th="http://www.thymeleaf.org" >
 <!--Main Section-->
+    <section class="jumbotron text-center" >
+        <div class="container">
+            <h3 class="jumbotron-heading">Authors</h3>
+        </div>
+    </section>
 <div class="container mb-4">
     <div class="row">
         <div class="col-12">
@@ -66,81 +25,13 @@
                         <td th:text="${author.address}"></td>
                         <td class="text-right">
 
-                        <td>
-                        <form th:action="@{'/authors/delete/{id}' (id=${author.id})}" th:method="POST">
-                            <button class="btn btn-sm btn-danger add-to-cart">
-                                Delete Author
-                            </button>
-                        </form>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
+
                 <a href="/home" class="btn btn-sm btn-info back-button">Back to products</a>
             </div>
         </div>
     </div>
 </div>
-<!--Footer-->
-<footer
-        class="text-center text-lg-start text-dark"
-        style="background-color: rgba(0, 0, 0, 0.2)">
-    <section
-            class="d-flex justify-content-between p-4 text-white"
-            style="background-color: #21D192">
-        <div class="me-5"><span>Get connected with us on social networks:</span></div>
-        <div>
-            <a href="" class="text-white me-4"><i class="fab fa-facebook-f"></i></a>
-            <a href="" class="text-white me-4"><i class="fab fa-twitter"></i></a>
-            <a href="" class="text-white me-4"><i class="fab fa-google"></i></a>
-            <a href="" class="text-white me-4"><i class="fab fa-instagram"></i></a>
-            <a href="" class="text-white me-4"><i class="fab fa-linkedin"></i></a>
-            <a href="" class="text-white me-4"><i class="fab fa-github"></i></a>
-        </div>
-    </section>
-    <section class="">
-        <div class="container text-center text-md-start mt-5">
-            <div class="row mt-3">
-                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                    <h6 class="text-uppercase fw-bold">Ana's Book Shop</h6>
-                    <hr class="mb-4 mt-0 d-inline-block mx-auto"
-                        style="width: 60px; background-color: #7c4dff; height: 2px"/>
-                    <p>Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                </div>
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <h6 class="text-uppercase fw-bold">Products</h6>
-                    <hr class="mb-4 mt-0 d-inline-block mx-auto"
-                        style="width: 60px; background-color: #7c4dff; height: 2px"/>
-                    <p><a href="#!" class="text-dark">Products</a></p>
-                    <p><a href="#!" class="text-dark">Authors</a></p>
-                    <p><a href="#!" class="text-dark">Categories</a></p>
-                    <p><a href="#!" class="text-dark">Shopping Cart</a></p>
-                </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <h6 class="text-uppercase fw-bold">Useful links</h6>
-                    <hr class="mb-4 mt-0 d-inline-block mx-auto"
-                        style="width: 60px; background-color: #7c4dff; height: 2px"/>
-                    <p><a href="#!" class="text-dark">Your Account</a></p>
-                    <p><a href="#!" class="text-dark">Become an Affiliate</a></p>
-                    <p><a href="#!" class="text-dark">Shipping Rates</a></p>
-                    <p><a href="#!" class="text-dark">Help</a></p>
-                </div>
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                    <h6 class="text-uppercase fw-bold">Contact</h6>
-                    <hr class="mb-4 mt-0 d-inline-block mx-auto"
-                        style="width: 60px; background-color: #7c4dff; height: 2px"/>
-                    <p><i class="fas fa-home mr-3"></i> Skopje, Skopje, North Macedonia</p>
-                    <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
-                    <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
-                    <p><i class="fas fa-print mr-3"></i> + 01 234 567 89</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class="text-center p-3"
-         style="background-color: rgba(0, 0, 0, 0.2)">© 2020 Copyright:<a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-    </div>
-</footer>
-
-</body>
-</html>
+</div>

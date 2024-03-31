@@ -6,6 +6,7 @@ import mk.ukim.finki.ecommmerceapp.model.Product;
 import mk.ukim.finki.ecommmerceapp.service.AuthorService;
 import mk.ukim.finki.ecommmerceapp.service.CategoryService;
 import mk.ukim.finki.ecommmerceapp.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,22 +27,35 @@ public class HomeController {
     }
 
     @GetMapping
-    public String getHomePage(Model model){
-        List<Product> products=this.productService.findAll();
+    public String getHomePage(@RequestParam(required = false) String error,@RequestParam(required = false) String nameSearch,Model model){
+        if(error != null && !error.isEmpty()) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
+        List<Product> products;
+        if (nameSearch == null) {
+            products = this.productService.findAll();
+        } else {
+            products = this.productService.listProductsByName(nameSearch);
+        }
         model.addAttribute("products",products);
-        return "home";
+        model.addAttribute("bodyContent","home");
+        return "master-template";
 
     }
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getAddPage(Model model){
         List<Author> authors = this.authorService.findAll();
         List<Category> categories = this.categoryService.listCategories();
         model.addAttribute("authors",authors);
         model.addAttribute("categories",categories);
         model.addAttribute("product",new Product());
-        return "add-products";
+        model.addAttribute("bodyContent","add-products");
+        return "master-template";
     }
     @GetMapping("/edit-form/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getEditPage(@PathVariable Long id,Model model){
         if (this.productService.findById(id).isPresent()) {
             Product product = this.productService.findById(id).get();
@@ -51,11 +65,13 @@ public class HomeController {
             model.addAttribute("product",product );
             model.addAttribute("authors",authors );
             model.addAttribute("categories",categories);
-            return "edit-products";
+            model.addAttribute("bodyContent","edit-products");
+            return "master-template";
         }
-        return "redirect:/products?error=ProductNotFound";
+        return "redirect:/home?error=ProductNotFound";
     }
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addProduct(@RequestParam String name,
                              @RequestParam Double price,
                              @RequestParam Integer quantity,
@@ -67,6 +83,7 @@ public class HomeController {
 
     }
     @PostMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editProduct(@PathVariable("id") Long id,
                               @RequestParam String name,
                               @RequestParam Double price,
@@ -78,10 +95,18 @@ public class HomeController {
 
     }
 
+
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteProduct(@PathVariable Long id){
         this.productService.deleteById(id);
         return "redirect:/home";
     }
+    @GetMapping("/access_denied")
+    public String getAccessDeniedPage(Model model) {
+        model.addAttribute("bodyContent","access-denied");
+        return "master-template";
+    }
+
 
 }

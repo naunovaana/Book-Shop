@@ -11,6 +11,6 @@ public interface AuthorService {
     Optional<Author> save(String name, String address);
     void deleteById(Long id);
 
-    boolean exists(Long id);
+//    boolean exists(Long id);
 
 }

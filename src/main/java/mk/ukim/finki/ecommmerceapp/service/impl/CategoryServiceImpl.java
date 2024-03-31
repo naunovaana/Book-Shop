@@ -15,9 +15,9 @@ public class CategoryServiceImpl  implements CategoryService {
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
-    private boolean categoryInvalid(String name) {
-        return name == null || name.isEmpty();
-    }
+//    private boolean categoryInvalid(String name) {
+//        return name == null || name.isEmpty();
+//    }
 
     @Override
     public List<Category> listCategories() {
@@ -31,27 +31,44 @@ public class CategoryServiceImpl  implements CategoryService {
 
     @Override
     public Category create(String name, String description) {
-        if (categoryInvalid(name)) {
+        if (name==null || name.isEmpty()) {
             throw new IllegalArgumentException();
         }
+
         Category category=new Category(name,description);
-        return categoryRepository.save(category);
+         categoryRepository.save(category);
+        return category;
     }
 
     @Override
     public Category update(String name, String description) {
-        return create(name,description);
+        if (name==null || name.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        Category category=new Category(name,description);
+        categoryRepository.save(category);
+        return category;
 
     }
 
     @Override
     public void delete(String name) {
-        this.categoryRepository.deleteByName(name);
+        if (name==null || name.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        categoryRepository.deleteByName(name);
 
     }
 
     @Override
-    public List<Category> searchCategories(String text) {
-        return categoryRepository.findAllByNameLike(text);
+    public List<Category> searchCategories(String searchText) {
+        return categoryRepository.findAllByNameLike(searchText);
+    }
+
+    @Override
+    public Optional<Category> save(String name, String description) {
+        return Optional.of(this.categoryRepository.save(new Category(name, description)));
     }
 }

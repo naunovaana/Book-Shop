@@ -1,13 +1,14 @@
 package mk.ukim.finki.ecommmerceapp.service.impl;
 
-import mk.ukim.finki.ecommmerceapp.model.Category;
+import jakarta.transaction.Transactional;
 import mk.ukim.finki.ecommmerceapp.model.Author;
+import mk.ukim.finki.ecommmerceapp.model.Category;
 import mk.ukim.finki.ecommmerceapp.model.Product;
 import mk.ukim.finki.ecommmerceapp.model.exceptions.CategoryNotFoundException;
 import mk.ukim.finki.ecommmerceapp.model.exceptions.ManufacturerNotFoundException;
 import mk.ukim.finki.ecommmerceapp.model.exceptions.ProductNotFoundException;
-import mk.ukim.finki.ecommmerceapp.repository.CategoryRepository;
 import mk.ukim.finki.ecommmerceapp.repository.AuthorRepository;
+import mk.ukim.finki.ecommmerceapp.repository.CategoryRepository;
 import mk.ukim.finki.ecommmerceapp.repository.ProductRepository;
 import mk.ukim.finki.ecommmerceapp.service.ProductService;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Optional<Product> save(String name, Double price, Integer quantity, Long categoryId, Long authorId) {
         Category category=this.categoryRepository.findById(categoryId).orElseThrow(()->new CategoryNotFoundException(categoryId));
         Author author=this.authorRepository.findById(authorId).orElseThrow(()->new ManufacturerNotFoundException(authorId));
@@ -68,4 +70,15 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository.deleteById(id);
 
     }
+
+    @Override
+    public List<Product> listProductsByName(String name) {
+        String nameLikePattern = "%" + name + "%";
+        if (name != null) {
+            return productRepository.findAllByNameLike(nameLikePattern);
+        }
+        return findAll();
+    }
+
 }
+

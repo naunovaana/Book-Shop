@@ -10,36 +10,36 @@ import java.util.Optional;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
-    private final AuthorRepository manufacturerRepository;
+    private final AuthorRepository authorRepository;
 
-    public AuthorServiceImpl(AuthorRepository manufacturerRepository) {
-        this.manufacturerRepository = manufacturerRepository;
+    public AuthorServiceImpl(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
     }
 
     @Override
     public List<Author> findAll() {
-        return this.manufacturerRepository.findAll();
+        return this.authorRepository.findAll();
     }
 
     @Override
     public Optional<Author> findById(Long id) {
-        return this.manufacturerRepository.findById(id);
+        return this.authorRepository.findById(id);
     }
 
     @Override
     public Optional<Author> save(String name, String address) {
         Author manufacturer=new Author(name,address);
-        return Optional.of(this.manufacturerRepository.save(manufacturer));
+        return Optional.of(this.authorRepository.save(manufacturer));
     }
 
     @Override
     public void deleteById(Long id) {
-        this.manufacturerRepository.deleteById(id);
+        this.authorRepository.deleteById(id);
 
     }
 
-    @Override
-    public boolean exists(Long id) {
-        return this.manufacturerRepository.existsById(id);
-    }
+//    @Override
+//    public boolean exists(Long id) {
+//        return this.authorRepository.existsById(id);
+//    }
 }

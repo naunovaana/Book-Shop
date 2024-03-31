@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mk.ukim.finki.ecommmerceapp.model.enumeration.ShoppingCartStatus;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,12 +13,14 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 public class ShoppingCart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
     private ShoppingCartStatus status;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+
+//    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateCreated;
     @ManyToMany
     private List<Product> products;

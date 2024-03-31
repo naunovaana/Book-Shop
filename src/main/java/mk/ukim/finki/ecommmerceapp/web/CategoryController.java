@@ -4,9 +4,7 @@ import mk.ukim.finki.ecommmerceapp.model.Category;
 import mk.ukim.finki.ecommmerceapp.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,12 +22,10 @@ public class CategoryController {
     public String getCategories(Model model){
         List<Category> categories=this.categoryService.listCategories();
         model.addAttribute("categories",categories);
-        return "categories";
+        model.addAttribute("bodyContent","categories");
+        return "master-template";
     }
-    @PostMapping("/delete")
-    public String deleteCategories(String name){
-        this.categoryService.delete(name);
-        return "redirect:/categories";
-    }
+
+
 
 }

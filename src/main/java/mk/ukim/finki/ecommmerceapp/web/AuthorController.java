@@ -26,7 +26,8 @@ public class AuthorController {
         List<Author> authors=this.authorService.findAll();
 
         model.addAttribute("authors",authors);
-        return "authors";
+        model.addAttribute("bodyContent","authors");
+        return "master-template";
     }
 
     @PostMapping("/delete/{id}")

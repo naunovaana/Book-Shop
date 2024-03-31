@@ -11,5 +11,6 @@ public interface CategoryService {
     Category create(String name,String description);
     Category update(String name,String description);
     void delete(String name);
-    List<Category> searchCategories(String text);
+    List<Category> searchCategories(String searchText);
+    Optional<Category> save(String name,String description);
 }

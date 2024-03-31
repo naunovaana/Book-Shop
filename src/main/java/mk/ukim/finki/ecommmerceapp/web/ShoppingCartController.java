@@ -5,37 +5,42 @@ import mk.ukim.finki.ecommmerceapp.model.ShoppingCart;
 import mk.ukim.finki.ecommmerceapp.service.ShoppingCartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/shopping-cart")
 public class ShoppingCartController {
-    private final ShoppingCartService service;
+    private final ShoppingCartService shoppingCartService;
 
-    public ShoppingCartController(ShoppingCartService service) {
-        this.service = service;
+    public ShoppingCartController(ShoppingCartService shoppingCartService) {
+        this.shoppingCartService = shoppingCartService;
     }
-
     @GetMapping
-    public String getShoppingCart(Model model, HttpServletRequest request){
-        String username=request.getRemoteUser();
-        ShoppingCart shoppingCart=this.service.getActiveShoppingCart(username);
-        model.addAttribute("products",this.service.listAllProductsInShoppingCart(shoppingCart.getId()));
-        model.addAttribute("shopping-cart",shoppingCart);
-        return "shopping-cart";
-    }
 
+    public String getShoppingCartPage(@RequestParam(required = false) String error,
+                                      HttpServletRequest req,
+                                      Model model) {
+        if(error != null && !error.isEmpty()){
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
+       String username= req.getRemoteUser();
+        ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(username);
+        model.addAttribute("products", this.shoppingCartService.listAllProductsInShoppingCart(shoppingCart.getId()));
+        model.addAttribute("bodyContent", "shopping-cart");
+        return "master-template";
+    }
     @PostMapping("/add-product/{id}")
-    public String addProductToCart(@PathVariable Long id,HttpServletRequest request){
+
+    public String addProductToShoppingCart(@PathVariable Long id, HttpServletRequest req) {
         try{
-            String username= request.getRemoteUser();
-            ShoppingCart shoppingCart=this.service.addProductsToShoppingCart(username,id);
+            String username = req.getRemoteUser();
+            ShoppingCart shoppingCart = this.shoppingCartService.addProductToShoppingCart(username, id);
             return "redirect:/shopping-cart";
-        }catch (RuntimeException exception){
-            return "redirect:/shopping-cart?error="+exception.getMessage();
+        }catch (RuntimeException exception) {
+            return "redirect:/shopping-cart?error=" + exception.getMessage();
         }
     }
+
+
 }
